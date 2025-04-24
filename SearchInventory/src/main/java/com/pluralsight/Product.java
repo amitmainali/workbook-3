@@ -1,9 +1,13 @@
 package com.pluralsight;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
+
 public class Product {
-    private int id = 0;
-    private String name = "";
-    private double price = 0;
+    private int id;
+    private String name;
+    private double price;
 
     public Product(int id, String name, double price) {
         this.id = id;
@@ -15,23 +19,37 @@ public class Product {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public String getName() {
+        return name;
     }
 
     public double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
+    public static ArrayList<Product> getInventory() {
+        ArrayList<Product> inventory = new ArrayList<>();
 
-    public String getName() {
-        return name;
-    }
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("inventory.csv"));
+            String line;
 
-    public void setName(String name) {
-        this.name = name;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split("\\|");
+
+                int id = Integer.parseInt(parts[0].trim());
+                String name = parts[1].trim();
+                double price = Double.parseDouble(parts[2].trim());
+
+                Product product = new Product(id, name, price);
+                inventory.add(product);
+            }
+
+            reader.close();
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        return inventory;
     }
 }
