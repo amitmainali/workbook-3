@@ -22,7 +22,6 @@ public class PayrollCalculator {
             FileWriter fileWriter = new FileWriter(exportFile);
             BufferedWriter bufWriter = new BufferedWriter(fileWriter);
 
-            // Skip header row
             bufReader.readLine();
 
             String line;
@@ -47,6 +46,7 @@ public class PayrollCalculator {
 
             bufReader.close();
             bufWriter.close();
+            scanner.close();
 
             System.out.println("File created successfully.");
 
